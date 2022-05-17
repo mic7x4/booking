@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Smooch&display=swap');
+
+.navbar {
+    height: 50px;
+    background-color: #236bcf;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navContainer {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navButton {
+    margin-left: 20px;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #236bcf;
+    background-color: white;
+}
+.logo {
+    font-weight: 500;
+    font-family: 'Smooch', cursive;
+    font-size: 2rem;
+    letter-spacing: .3rem;
+    margin-top: .6rem;
+}
