@@ -8,7 +8,7 @@ import {format} from 'date-fns'
 import './header.css'
 
 
-function Header() {
+function Header({type}) {
 
     const [openDate, setOpenDate] = useState(false)
     const [openOptions, setOpenOptions] = useState(false)
@@ -36,7 +36,7 @@ function Header() {
       }
   return (
     <div className='header'>
-        <div className="headerContainer">
+        <div className={type==='list' ? "headerContainer listMode" : "headerContainer"}>
         <div className="headerList">
             <div className="headerListItem active">
                 <FontAwesomeIcon icon={faBed} />
@@ -60,6 +60,10 @@ function Header() {
             </div>
 
         </div>
+        { type !== 'list' && 
+        
+            <>
+                
         <h1 className="headerTitle">
             A Lifetime of discounts? it's Genius
         </h1>
@@ -126,6 +130,9 @@ function Header() {
                 <button className="headerSearchBtn">Search</button>
             </div>
         </div>
+
+            </>
+        }    
         </div>
     </div>
   )
