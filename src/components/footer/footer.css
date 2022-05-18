@@ -1,0 +1,26 @@
+.footer {
+    width: 100%;
+    max-width: 1024px;
+    font-size: 1rem;
+}
+.fLists {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+
+}
+
+.fListItem {
+    margin: .8rem 0;
+    cursor: pointer;
+    color: rgb(15, 125, 199);
+}
+
+.copyright {
+    margin: 1rem 0;
+}
+
+.copyright >span {
+    font-weight: 100;
+    color: gray;
+}

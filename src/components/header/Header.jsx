@@ -6,11 +6,13 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css'; 
 import {format} from 'date-fns'
 import './header.css'
+import { useNavigate } from 'react-router-dom';
 
 
 function Header({type}) {
 
     const [openDate, setOpenDate] = useState(false)
+    const [destination, setDestination] = useState("")
     const [openOptions, setOpenOptions] = useState(false)
 
     const [date, setDate] = useState([
@@ -33,6 +35,12 @@ function Header({type}) {
                   ...prev,[name]: operation === 'i' ? options[name] + 1 : options[name] - 1 
               }
           })
+      }
+
+      const navigate = useNavigate()
+
+      const handleSearch = ()=> {
+            navigate('hotels',{state: {destination, date, options }})
       }
   return (
     <div className='header'>
@@ -75,7 +83,7 @@ function Header({type}) {
         <div className="headerSearch">
             <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className='headerIcon' />
-                <input type="text" className='headerSearchInput' placeholder='Where are you going?'/>
+                <input type="text" onChange={(e) => setDestination(e.target.value) } className='headerSearchInput' placeholder='Where are you going?'/>
             </div>
             <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faCalendarDays} className='headerIcon' />
@@ -87,6 +95,7 @@ function Header({type}) {
                     moveRangeOnFirstSelection={false}
                     ranges={date}
                     className='date'
+                    minDate={new Date()}
                 />
                 }
             </div>
@@ -127,7 +136,7 @@ function Header({type}) {
                 }
             </div>
             <div className="headerSearchItem">
-                <button className="headerSearchBtn">Search</button>
+                <button className="headerSearchBtn" onClick={handleSearch}>Search</button>
             </div>
         </div>
 
