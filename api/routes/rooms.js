@@ -14,7 +14,7 @@ router.put('/:id', verifyAdmin,updateRoom)
 
 
 // DELETE
-router.delete('/:id',verifyAdmin, deleteRoom)
+router.delete('/:id/:hotelId',verifyAdmin, deleteRoom)
 
 
 // GET
