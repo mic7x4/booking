@@ -6,17 +6,33 @@ import Footer from '../../components/footer/Footer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft, faArrowCircleLeft, faArrowCircleRight, faArrowLeft, faArrowRight, faCircleXmark, faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import {image1, image2, image3, image4, image5, image6, image7, image8,image9, image10} from '../../assets/images'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import useFetch from '../../hooks/useFetch.js'
+import { useLocation } from 'react-router-dom'
+import { SearchContext } from '../../context/SearchContext'
 
 
 function Hotel() {
+  const location = useLocation()
+  const id = location.pathname.split("/")[2]
+
+  const {data, loading , error} = useFetch(`/hotels/find/${id}`)
+
+
   const photos = [
     image1, image2, image3, image5, image7
 , image6  ]
 
 
+const {dates} = useContext(SearchContext);
+
+console.log(dates);
+
 const [slideNumber,setSlideNumber] = useState(0)
 const [openModal,setOpenModal]= useState(false)
+
+
+
 const handleOpenModal = (index) => {
     setSlideNumber(index)
     setOpenModal(true)
@@ -34,6 +50,9 @@ const handleMove = (direction)=>{
   }
   setSlideNumber(newSlideNumber)
 }
+
+
+
   return (
     <div>
       <Navbar/>
@@ -43,24 +62,26 @@ const handleMove = (direction)=>{
           <FontAwesomeIcon icon={faCircleXmark} className='close' onClick={()=>setOpenModal(false)} />
           <div className="sliderWapper">
               <FontAwesomeIcon icon={faArrowCircleLeft} className='arrow'  onClick={()=>handleMove('l')}/>
-                <img src={photos[slideNumber]} className="sliderImg" alt="" />
+                <img src={data.photos[slideNumber]} className="sliderImg" alt="" />
               <FontAwesomeIcon icon={faArrowCircleRight} className='arrow' onClick={()=>handleMove('r')}/>
           </div>
 
         </div> }
-      <div className="hotelContainer">
+      {
+        loading ? "loading" : (
+          <div className="hotelContainer">
         <div className="hotelWrapper">
           <button className="bookNow">Reserve or Book Now!</button>
-          <h1 className="hotelTitle">Mariot Hotel</h1>
+          <h1 className="hotelTitle">{data.name}</h1>
           <div className="hotelAddress">
             <FontAwesomeIcon icon={faLocationDot}/>
-            <span>Kigali Rwanda KN 321</span>
+            <span>{data.address}</span>
           </div>
-          <span className="hotelDistance">Excellent location - 500m from Town</span>
-          <span className="hotelPriceHighlight">Book a stay over $200 at this property and get a free airport taxi</span>
+          <span className="hotelDistance">Excellent location - {data.distance}m from Town</span>
+          <span className="hotelPriceHighlight">Book a stay over ${data.cheapestPrice} at this property and get a free airport taxi</span>
 
           <div className="hotelImages">
-            {photos.map((photo, index)=>(
+            {data.photos?.map((photo, index)=>(
               <div className="hotelImgWrapper">
                 <img key={index} onClick={()=> handleOpenModal(index)} src={photo} className="hotelImg" />
               </div>
@@ -68,9 +89,9 @@ const handleMove = (direction)=>{
           </div>
           <div className="hotelDetails">
             <div className="hotelDetailsTexts">
-              <h1 className="hotelTitle">Stay in the heart of Marriot</h1>
+              <h1 className="hotelTitle">{data.title}</h1>
               <p className="hotelDesc">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem ipsum ad, incidunt atque repudiandae voluptatum aperiam animi mollitia expedita dolorem officiis doloribus. Nisi accusamus veritatis quasi rerum voluptatum enim perspiciatis?
+                {data.desc}
               </p>
             </div>
             <div className="hotelsDetailsPrice">
@@ -86,6 +107,9 @@ const handleMove = (direction)=>{
           </div>
         </div>
       </div>
+        )
+        
+      }
       <MailList/>
       <div className="hotelContainer">
       <Footer/>
